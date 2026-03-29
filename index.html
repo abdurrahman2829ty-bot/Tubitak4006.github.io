@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <!-- MOBİL CİHAZLAR İÇİN KRİTİK AYAR -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TÜBİTAK 4006 - Aşık Veysel Oyunu</title>
+    <style>
+        /* GENEL AYARLAR */
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f4f7f6; 
+            margin: 0; 
+            padding: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* LOGO ALANI - MOBİLDE YAN YANA */
+        .header-logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 450px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding: 0 5px;
+        }
+
+        .header-logos img {
+            height: 60px; /* Mobilde taşmaması için yükseklik kısıtlandı */
+            width: auto;
+            max-width: 45%;
+            object-fit: contain;
+        }
+
+        /* OYUN KARTI */
+        .card { 
+            background: white; 
+            padding: 25px 20px; 
+            border-radius: 24px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 450px; 
+            box-sizing: border-box;
+            border: 1px solid #eee;
+        }
+        
+        .school-name { 
+            font-size: 0.9rem; 
+            font-weight: 800; 
+            color: #2d3436; 
+            margin-bottom: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        #sentence { 
+            font-size: 1.15rem; 
+            margin-bottom: 25px; 
+            color: #444; 
+            min-height: 70px; 
+            font-style: italic; 
+            line-height: 1.6;
+            padding: 0 5px;
+        }
+
+        /* BOŞLUK DOLDURMA ALANI */
+        .hint-box { 
+            font-size: 1.8rem; 
+            letter-spacing: 4px; 
+            color: #6c5ce7; 
+            font-weight: 900; 
+            margin-bottom: 25px; 
+            text-transform: uppercase;
+            word-wrap: break-word;
+        }
+        
+        /* MOBİL GİRİŞ ALANI */
+        input { 
+            width: 100%; 
+            padding: 16px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 14px; 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            outline: none; 
+            text-align: center; 
+            box-sizing: border-box;
+            -webkit-appearance: none; /* iOS için stil düzeltme */
+        }
+
+        input:focus { border-color: #6c5ce7; background-color: #f9f8ff; }
+        
+        /* BÜYÜK MOBİL BUTON */
+        button { 
+            background: #6c5ce7; 
+            color: white; 
+            border: none; 
+            padding: 18px; 
+            border-radius: 14px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            font-weight: bold; 
+            width: 100%; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+            transition: transform 0.1s;
+        }
+
+        button:active { transform: scale(0.97); }
+        
+        #message { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            min-height: 24px; 
+        }
+
+        /* KÜÇÜK EKRANLAR İÇİN EKSTRA AYAR */
+        @media (max-width: 360px) {
+            .hint-box { font-size: 1.5rem; }
+            #sentence { font-size: 1rem; }
+            .header-logos img { height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="school-name">KONYA MESLEKİ VE TEKNİK ANADOLU LİSESİ</div>
+        
+        <div id="sentence">Yükleniyor...</div>
+        <div id="hintDisplay" class="hint-box"></div>
+        
+        <input type="text" id="userInput" placeholder="Eksik kelimeyi yazın..." autocomplete="off" inputmode="text">
+        <br>
+        <button onclick="checkAnswer()">KONTROL ET</button>
+        
+        <p id="message"></p>
+        <audio id="gameSound"></audio>
+    </div>
+
+<script>
+    const questions = [
+        { sentence: '"Uzun ince bir _____, gidiyorum gündüz gece."', correct: "yoldayım", sound: "yol.mp3" },
+        { sentence: '"Dost dost diye nicesine sarıldım, benim sadık yarim _____."', correct: "karatopraktır", sound: "toprak.mp3" },
+        { sentence: '"Güzelliğin on par\'etmez bu _____ olmasa."', correct: "bendeki", sound: "bendeki.mp3" }
+    ];
+
+    let currentStep = 0;
+    let hintCount = 0; 
+
+    function loadQuestion() {
+        if (currentStep < questions.length) {
+            hintCount = 0; 
+            document.getElementById('sentence').innerText = questions[currentStep].sentence;
+            document.getElementById('userInput').value = "";
+            document.getElementById('userInput').disabled = false;
+            document.getElementById('message').innerText = "";
+            updateHint(); 
+        } else {
+            document.querySelector('.card').innerHTML = `
+                <h2 style="color: #6c5ce7; margin-top:0;">Tebrikler! 🎉</h2>
+                <p style="color: #666; line-height:1.5;">Aşık Veysel'i saygıyla andık. Tüm bölümleri başarıyla tamamladın.</p>
+                <button onclick='location.reload()' style="margin-top:10px;">Yeniden Başla</button>`;
+        }
+    }
+
+    function updateHint() {
+        const word = questions[currentStep].correct;
+        let display = "";
+        for (let i = 0; i < word.length; i++) {
+            display += (i < hintCount) ? word[i] : "_";
+        }
+        document.getElementById('hintDisplay').innerText = display;
+    }
+
+    function checkAnswer() {
+        const input = document.getElementById('userInput');
+        const userVal = input.value.toLowerCase().trim();
+        const msg = document.getElementById('message');
+        const audio = document.getElementById('gameSound');
+        const target = questions[currentStep].correct;
+
+        if (userVal === target) {
+            msg.innerText = "Harika! Doğru Bildin. 🎶";
+            msg.style.color = "#27ae60";
+            audio.src = questions[currentStep].sound;
+            audio.play();
+            input.disabled = true;
+            setTimeout(() => { currentStep++; loadQuestion(); }, 2500);
+        } else {
+            hintCount++; 
+            updateHint();
+            if (hintCount >= target.length) {
+                msg.innerText = `Cevap: ${target.toUpperCase()}`;
+                msg.style.color = "#e67e22";
+                input.disabled = true;
+                setTimeout(() => { currentStep++; loadQuestion(); }, 3500);
+            } else {
+                msg.innerText = "Yanlış! Bir harf eklendi.";
+                msg.style.color = "#e74c3c";
+            }
+        }
+    }
+    
+    // Klavyedeki "Git" veya "Enter" tuşu için
+    document.getElementById("userInput").addEventListener("keyup", function(e) {
+        if (e.key === "Enter") checkAnswer();
+    });
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
