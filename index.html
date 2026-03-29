@@ -2,221 +2,165 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <!-- MOBİL CİHAZLAR İÇİN KRİTİK AYAR -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TÜBİTAK 4006 - Aşık Veysel Oyunu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aşık Veysel Etkinliği - Mavi Tema</title>
     <style>
-        /* GENEL AYARLAR */
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #f4f7f6; 
-            margin: 0; 
-            padding: 10px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-
-        /* LOGO ALANI - MOBİLDE YAN YANA */
-        .header-logos {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 450px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            padding: 0 5px;
-        }
-
-        .header-logos img {
-            height: 60px; /* Mobilde taşmaması için yükseklik kısıtlandı */
-            width: auto;
-            max-width: 45%;
-            object-fit: contain;
-        }
-
-        /* OYUN KARTI */
-        .card { 
-            background: white; 
-            padding: 25px 20px; 
-            border-radius: 24px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
-            text-align: center; 
-            width: 100%; 
-            max-width: 450px; 
-            box-sizing: border-box;
-            border: 1px solid #eee;
-        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #e3f2fd; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
         
-        .school-name { 
-            font-size: 0.9rem; 
-            font-weight: 800; 
-            color: #2d3436; 
-            margin-bottom: 20px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            line-height: 1.3;
-        }
-
-        #sentence { 
-            font-size: 1.15rem; 
-            margin-bottom: 25px; 
-            color: #444; 
-            min-height: 70px; 
-            font-style: italic; 
-            line-height: 1.6;
-            padding: 0 5px;
-        }
-
-        /* BOŞLUK DOLDURMA ALANI */
-        .hint-box { 
-            font-size: 1.8rem; 
-            letter-spacing: 4px; 
-            color: #6c5ce7; 
-            font-weight: 900; 
-            margin-bottom: 25px; 
-            text-transform: uppercase;
-            word-wrap: break-word;
-        }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; border: 2px solid #2196f3; margin-bottom: 20px; }
         
-        /* MOBİL GİRİŞ ALANI */
-        input { 
-            width: 100%; 
-            padding: 16px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 14px; 
-            font-size: 18px; 
-            margin-bottom: 15px; 
-            outline: none; 
-            text-align: center; 
-            box-sizing: border-box;
-            -webkit-appearance: none; /* iOS için stil düzeltme */
-        }
+        #login-area { display: block; }
+        #game-area { display: none; }
 
-        input:focus { border-color: #6c5ce7; background-color: #f9f8ff; }
+        h2 { color: #1565c0; margin-top: 0; }
+        .progress { font-size: 14px; color: #1976d2; margin-bottom: 10px; font-weight: bold; }
         
-        /* BÜYÜK MOBİL BUTON */
-        button { 
-            background: #6c5ce7; 
-            color: white; 
-            border: none; 
-            padding: 18px; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            font-size: 18px; 
-            font-weight: bold; 
-            width: 100%; 
-            text-transform: uppercase;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
-            transition: transform 0.1s;
-        }
-
-        button:active { transform: scale(0.97); }
+        #sentence { font-size: 18px; margin-bottom: 20px; color: #333; min-height: 60px; line-height: 1.5; font-style: italic; }
+        .hint-box { font-size: 28px; letter-spacing: 6px; color: #0d47a1; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; font-family: monospace; }
         
-        #message { 
-            margin-top: 20px; 
-            font-weight: bold; 
-            font-size: 1rem; 
-            min-height: 24px; 
-        }
+        input { width: 100%; padding: 15px; border: 2px solid #90caf9; border-radius: 12px; font-size: 18px; margin-bottom: 15px; outline: none; text-align: center; background: #f1f8fe; transition: 0.3s; }
+        input:focus { border-color: #2196f3; background: #fff; }
+        
+        button { background: #1e88e5; color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; width: 100%; transition: 0.3s; }
+        button:hover { background: #1565c0; }
+        button:active { transform: scale(0.98); }
+        
+        #message { margin-top: 15px; font-weight: bold; font-size: 16px; }
 
-        /* KÜÇÜK EKRANLAR İÇİN EKSTRA AYAR */
-        @media (max-width: 360px) {
-            .hint-box { font-size: 1.5rem; }
-            #sentence { font-size: 1rem; }
-            .header-logos img { height: 50px; }
-        }
+        /* Yönetici Paneli */
+        #admin-panel { width: 100%; max-width: 400px; background: #cfd8dc; padding: 15px; border-radius: 12px; display: none; margin-top: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .admin-btn { background: #546e7a; font-size: 12px; padding: 8px; margin-top: 20px; width: auto; opacity: 0.7; }
+        ul { text-align: left; padding-left: 20px; color: #37474f; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="school-name">KONYA MESLEKİ VE TEKNİK ANADOLU LİSESİ</div>
-        
-        <div id="sentence">Yükleniyor...</div>
-        <div id="hintDisplay" class="hint-box"></div>
-        
-        <input type="text" id="userInput" placeholder="Eksik kelimeyi yazın..." autocomplete="off" inputmode="text">
-        <br>
-        <button onclick="checkAnswer()">KONTROL ET</button>
-        
-        <p id="message"></p>
-        <audio id="gameSound"></audio>
+<div class="card">
+    <!-- GİRİŞ EKRANI -->
+    <div id="login-area">
+        <h2>Hoş Geldiniz</h2>
+        <p>Lütfen isminizi giriniz:</p>
+        <input type="text" id="playerName" placeholder="Adınız..." autocomplete="off">
+        <button onclick="startGame()">BAŞLA</button>
     </div>
 
+    <!-- OYUN EKRANI -->
+    <div id="game-area">
+        <div id="progress" class="progress">Soru: 1 / 3</div>
+        <div id="welcome-msg" style="font-weight:bold; color:#0d47a1; margin-bottom:10px;"></div>
+        <div id="sentence"></div>
+        <div id="hintDisplay" class="hint-box"></div>
+        <input type="text" id="userInput" placeholder="Cevabı yaz..." autocomplete="off">
+        <button onclick="checkAnswer()">KONTROL ET</button>
+        <p id="message"></p>
+    </div>
+</div>
+
+<!-- YÖNETİCİ BÖLÜMÜ -->
+<button class="admin-btn" onclick="toggleAdmin()">📊 Kayıtlı İsimleri Gör</button>
+<div id="admin-panel">
+    <h3 style="margin-top:0">Giriş Yapanlar:</h3>
+    <ul id="nameList"></ul>
+    <button onclick="clearLogs()" style="background:#d32f2f; font-size:11px; padding:5px; width:auto">Kayıtları Sıfırla</button>
+</div>
+
 <script>
+    let userName = "";
     const questions = [
-        { sentence: '"Uzun ince bir _____, gidiyorum gündüz gece."', correct: "yoldayım", sound: "yol.mp3" },
-        { sentence: '"Dost dost diye nicesine sarıldım, benim sadık yarim _____."', correct: "karatopraktır", sound: "toprak.mp3" },
-        { sentence: '"Güzelliğin on par\'etmez bu _____ olmasa."', correct: "bendeki", sound: "bendeki.mp3" }
+        { sentence: "\"Uzun ince bir ____ gidiyorum, gündüz gece.\"", correct: "yoldayım" },
+        { sentence: "Sadık yârimiz: \"Kara ____\".", correct: "toprak" },
+        { sentence: "Veysel, bir halk ____.", correct: "ozanıdır" }
     ];
 
     let currentStep = 0;
-    let hintCount = 0; 
+    let hintCount = 0;
+
+    function startGame() {
+        const nameInput = document.getElementById('playerName').value.trim();
+        if (nameInput.length < 2) return alert("Lütfen isim girin.");
+        
+        userName = nameInput;
+        
+        // localStorage Kaydı
+        let players = JSON.parse(localStorage.getItem('veyse_players_blue') || "[]");
+        players.push({ad: userName, tarih: new Date().toLocaleString()});
+        localStorage.setItem('veyse_players_blue', JSON.stringify(players));
+
+        document.getElementById('login-area').style.display = 'none';
+        document.getElementById('game-area').style.display = 'block';
+        loadQuestion();
+    }
 
     function loadQuestion() {
         if (currentStep < questions.length) {
-            hintCount = 0; 
+            hintCount = 0;
+            document.getElementById('progress').innerText = `Soru: ${currentStep + 1} / ${questions.length}`;
+            document.getElementById('welcome-msg').innerText = `Merhaba ${userName}! 👋`;
             document.getElementById('sentence').innerText = questions[currentStep].sentence;
             document.getElementById('userInput').value = "";
             document.getElementById('userInput').disabled = false;
+            document.getElementById('userInput').focus();
             document.getElementById('message').innerText = "";
-            updateHint(); 
+            updateHint();
         } else {
-            document.querySelector('.card').innerHTML = `
-                <h2 style="color: #6c5ce7; margin-top:0;">Tebrikler! 🎉</h2>
-                <p style="color: #666; line-height:1.5;">Aşık Veysel'i saygıyla andık. Tüm bölümleri başarıyla tamamladın.</p>
-                <button onclick='location.reload()' style="margin-top:10px;">Yeniden Başla</button>`;
+            document.getElementById('game-area').innerHTML = `<h2 style="color:#2196f3">Tebrikler ${userName}!</h2><p>Tüm soruları yanıtladın.</p><button onclick='location.reload()'>Yeniden Oyna</button>`;
         }
     }
 
     function updateHint() {
         const word = questions[currentStep].correct;
         let display = "";
-        for (let i = 0; i < word.length; i++) {
-            display += (i < hintCount) ? word[i] : "_";
-        }
+        for (let i = 0; i < word.length; i++) display += (i < hintCount) ? word[i] : "_";
         document.getElementById('hintDisplay').innerText = display;
     }
 
     function checkAnswer() {
         const input = document.getElementById('userInput');
         const userVal = input.value.toLowerCase().trim();
-        const msg = document.getElementById('message');
-        const audio = document.getElementById('gameSound');
         const target = questions[currentStep].correct;
 
         if (userVal === target) {
-            msg.innerText = "Harika! Doğru Bildin. 🎶";
-            msg.style.color = "#27ae60";
-            audio.src = questions[currentStep].sound;
-            audio.play();
+            document.getElementById('message').innerText = "Doğru! 🎉";
+            document.getElementById('message').style.color = "#2e7d32";
             input.disabled = true;
-            setTimeout(() => { currentStep++; loadQuestion(); }, 2500);
+            setTimeout(() => { currentStep++; loadQuestion(); }, 2000);
         } else {
-            hintCount++; 
+            hintCount++;
             updateHint();
             if (hintCount >= target.length) {
-                msg.innerText = `Cevap: ${target.toUpperCase()}`;
-                msg.style.color = "#e67e22";
-                input.disabled = true;
-                setTimeout(() => { currentStep++; loadQuestion(); }, 3500);
+                document.getElementById('message').innerText = `Cevap: ${target.toUpperCase()}`;
+                document.getElementById('message').style.color = "#e65100";
+                setTimeout(() => { currentStep++; loadQuestion(); }, 3000);
             } else {
-                msg.innerText = "Yanlış! Bir harf eklendi.";
-                msg.style.color = "#e74c3c";
+                document.getElementById('message').innerText = "Yanlış, bir ipucu daha!";
+                document.getElementById('message').style.color = "#c62828";
             }
         }
     }
-    
-    // Klavyedeki "Git" veya "Enter" tuşu için
-    document.getElementById("userInput").addEventListener("keyup", function(e) {
-        if (e.key === "Enter") checkAnswer();
-    });
 
-    loadQuestion();
+    function toggleAdmin() {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        const list = document.getElementById('nameList');
+        list.innerHTML = "";
+        const players = JSON.parse(localStorage.getItem('veyse_players_blue') || "[]");
+        players.forEach(p => {
+            const li = document.createElement('li');
+            li.innerText = `${p.ad} - ${p.tarih}`;
+            list.appendChild(li);
+        });
+    }
+
+    function clearLogs() {
+        if(confirm("Tüm kayıtlar silinsin mi?")) {
+            localStorage.removeItem('veyse_players_blue');
+            toggleAdmin();
+        }
+    }
+
+    document.getElementById("playerName").addEventListener("keyup", (e) => { if (e.key === "Enter") startGame(); });
+    document.getElementById("userInput").addEventListener("keyup", (e) => { if (e.key === "Enter") checkAnswer(); });
 </script>
 
 </body>
