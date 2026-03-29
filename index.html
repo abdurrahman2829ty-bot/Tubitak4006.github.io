@@ -3,45 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aşık Veysel - TÜBİTAK 4006</title>
+    <title>Aşık Veysel Etkinliği - TÜBİTAK</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: #e3f2fd; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; border: 2px solid #2196f3; z-index: 1; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; border: 2px solid #2196f3; }
         #login-area { display: block; }
         #game-area { display: none; }
-        h2 { color: #1565c0; margin-top: 0; cursor: pointer; user-select: none; padding: 10px; }
+        h2 { color: #1565c0; margin-top: 0; user-select: none; padding: 10px; }
         .progress { font-size: 14px; color: #1976d2; margin-bottom: 10px; font-weight: bold; }
         .hint-box { font-size: 28px; letter-spacing: 6px; color: #0d47a1; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; font-family: monospace; }
         input { width: 100%; padding: 15px; border: 2px solid #90caf9; border-radius: 12px; font-size: 18px; margin-bottom: 15px; text-align: center; outline: none; }
         button { background: #1e88e5; color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 18px; font-weight: bold; width: 100%; transition: 0.3s; }
-        
-        /* ADMİN PANELİ - ÖN PLANDA VE KESİN GÖRÜNÜR */
-        #admin-panel { 
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 350px; background: #263238; color: #fff; 
-            padding: 20px; border-radius: 15px; display: none; z-index: 999;
-            box-shadow: 0 0 100px rgba(0,0,0,0.5); border: 2px solid #90caf9;
-        }
-        #admin-panel h3 { color: #90caf9; margin-top: 0; border-bottom: 1px solid #546e7a; padding-bottom: 10px; }
-        #nameList { text-align: left; font-size: 13px; max-height: 250px; overflow-y: auto; padding-left: 15px; margin-bottom: 20px; list-style: decimal; }
-        .admin-controls { display: flex; gap: 10px; }
-        .btn-red { background: #c62828; flex: 1; font-size: 12px; padding: 10px; color: white; border: none; border-radius: 8px; cursor: pointer; }
-        .btn-grey { background: #546e7a; flex: 1; font-size: 12px; padding: 10px; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #1565c0; }
+        #message { font-weight: bold; margin-top: 10px; min-height: 20px; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <!-- Bu başlığa hızlıca 3 kez tıkla -->
-    <h2 id="title" onclick="handleAdmin()">Aşık Veysel Etkinliği</h2>
+    <h2 id="title">Aşık Veysel Etkinliği</h2>
 
+    <!-- GİRİŞ EKRANI -->
     <div id="login-area">
         <p>Hoş geldiniz, isminizi giriniz:</p>
         <input type="text" id="playerName" placeholder="Adınız Soyadınız..." autocomplete="off">
         <button onclick="startGame()">OYUNA BAŞLA</button>
+        <p style="font-size: 10px; color: #777; margin-top: 10px;">* Giriş bilgileriniz bulut sistemine kaydedilir.</p>
     </div>
 
+    <!-- OYUN EKRANI -->
     <div id="game-area">
         <div id="progress" class="progress">Soru: 1 / 3</div>
         <div id="welcome-msg" style="color:#0d47a1; margin-bottom:10px; font-weight:bold;"></div>
@@ -49,26 +40,12 @@
         <div id="hintDisplay" class="hint-box"></div>
         <input type="text" id="userInput" placeholder="Cevabı yaz..." autocomplete="off">
         <button onclick="checkAnswer()">KONTROL ET</button>
-        <p id="message" style="font-weight:bold; margin-top:10px;"></p>
-    </div>
-</div>
-
-<!-- YÖNETİCİ PANELİ (GİZLİ KATMAN) -->
-<div id="admin-panel">
-    <h3>📊 Giriş Yapan Listesi</h3>
-    <ol id="nameList"></ol>
-    <div class="admin-controls">
-        <button class="btn-red" onclick="clearData()">Sıfırla</button>
-        <button class="btn-grey" onclick="closeAdmin()">Kapat</button>
+        <p id="message"></p>
     </div>
 </div>
 
 <script>
     let userName = "";
-    let clicks = 0;
-    let timer;
-    const passCode = "4006"; // Admin Şifresi
-
     const questions = [
         { s: "\"Uzun ince bir ____ gidiyorum, gündüz gece.\"", c: "yoldayım" },
         { s: "Aşık Veysel'in sadık yâri: \"Kara ____\".", c: "toprak" },
@@ -77,63 +54,29 @@
     let step = 0;
     let hints = 0;
 
-    // ADMİN TETİKLEYİCİ
-    function handleAdmin() {
-        clicks++;
-        clearTimeout(timer);
-        timer = setTimeout(() => { clicks = 0; }, 1500);
-
-        if (clicks === 3) {
-            clicks = 0;
-            const entry = prompt("Yönetici Şifresini Girin:");
-            if (entry === passCode) {
-                openAdmin();
-            } else if(entry !== null) {
-                alert("Hatalı Giriş!");
-            }
-        }
-    }
-
-    function openAdmin() {
-        const panel = document.getElementById('admin-panel');
-        const list = document.getElementById('nameList');
-        panel.style.display = 'block'; // Paneli zorla göster
-        list.innerHTML = "";
+    // --- BULUT KAYIT SİSTEMİ (GOOGLE FORMS) ---
+    function sendToGoogle(name) {
+        const FORM_ID = "1v6vz4rmkLOsbHRr_K9ZsfyiChGq-Icj6VZjG-guVt7M"; 
+        const ENTRY_ID = "entry.686330562";
         
-        const saved = JSON.parse(localStorage.getItem('veysel_final_db') || "[]");
-        if (saved.length === 0) {
-            list.innerHTML = "<li>Henüz kayıt yok.</li>";
-        } else {
-            saved.forEach(p => {
-                const li = document.createElement('li');
-                li.innerText = `${p.n} - ${p.t}`;
-                list.appendChild(li);
-            });
-        }
+        // Form gönderim URL'si
+        const url = `https://docs.google.com{FORM_ID}/formResponse?${ENTRY_ID}=${encodeURIComponent(name)}&submit=Submit`;
+        
+        // Arka planda veriyi gönder (no-cors tarayıcı güvenliği içindir, veri her türlü gider)
+        fetch(url, { mode: 'no-cors' })
+        .then(() => console.log("Veri buluta gönderildi."))
+        .catch(e => console.error("Hata:", e));
     }
 
-    function closeAdmin() {
-        document.getElementById('admin-panel').style.display = 'none';
-    }
-
-    function clearData() {
-        if(confirm("Tüm isimler silinecek! Onaylıyor musun?")) {
-            localStorage.removeItem('veysel_final_db');
-            openAdmin();
-        }
-    }
-
-    // OYUN MANTIĞI
     function startGame() {
         const n = document.getElementById('playerName').value.trim();
-        if (n.length < 2) return alert("Lütfen isminizi yazın.");
+        if (n.length < 2) return alert("Lütfen isminizi tam yazın.");
+        
         userName = n;
-
-        // Veriyi Kaydet
-        let db = JSON.parse(localStorage.getItem('veysel_final_db') || "[]");
-        db.push({n: userName, t: new Date().toLocaleString('tr-TR')});
-        localStorage.setItem('veysel_final_db', JSON.stringify(db));
-
+        
+        // Veriyi hem yerel tarayıcıya hem de Google Form'a gönderiyoruz
+        sendToGoogle(userName);
+        
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('game-area').style.display = 'block';
         loadNext();
@@ -150,7 +93,7 @@
             document.getElementById('message').innerText = "";
             drawHint();
         } else {
-            document.getElementById('game-area').innerHTML = `<h2>Tebrikler ${userName}!</h2><button onclick="location.reload()">Yeniden Başlat</button>`;
+            document.getElementById('game-area').innerHTML = `<h2>Tebrikler ${userName}!</h2><p>Dostlar seni hatırlasın...</p><button onclick="location.reload()">Yeniden Başlat</button>`;
         }
     }
 
@@ -176,13 +119,13 @@
                 document.getElementById('message').innerText = `Cevap: ${target.toUpperCase()}`;
                 setTimeout(() => { step++; loadNext(); }, 2500);
             } else {
-                document.getElementById('message').innerText = "Yanlış!";
+                document.getElementById('message').innerText = "Yanlış, ipucu eklendi.";
                 document.getElementById('message').style.color = "red";
             }
         }
     }
 
-    // ENTER tuşu
+    // ENTER tuşu desteği
     document.getElementById("playerName").onkeyup = (e) => { if(e.key === "Enter") startGame(); };
     document.getElementById("userInput").onkeyup = (e) => { if(e.key === "Enter") checkAnswer(); };
 
