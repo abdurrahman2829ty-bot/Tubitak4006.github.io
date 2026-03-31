@@ -4,40 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drive Ses Çalar</title>
+
     <style>
         body {
-            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; background: #000; font-family: -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #000;
+            font-family: -apple-system, sans-serif;
         }
+
         .player-card {
-            background: #1c1c1e; width: 90%; max-width: 360px; padding: 40px 20px;
-            border-radius: 40px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            background: #1c1c1e;
+            width: 95%;
+            max-width: 400px;
+            padding: 30px 15px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             border: 1px solid #333;
         }
-        h2 { color: #fff; margin: 10px 0; font-size: 1.5rem; }
-        p { color: #8e8e93; font-size: 0.9rem; margin-bottom: 30px; }
-        audio {
-            width: 100%; height: 50px; outline: none;
-            filter: invert(1) hue-rotate(180deg) brightness(1.5);
+
+        h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
         }
-        .footer-text { margin-top: 25px; font-size: 11px; color: #444; letter-spacing: 1px; }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: #2c2c2e;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .footer {
+            color: #8e8e93;
+            font-size: 11px;
+            margin-top: 20px;
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="player-card">
-        <div style="font-size: 50px; margin-bottom: 10px;">💾</div>
-        <h2>Drive Ses Dosyası</h2>
-        <p>Bulut üzerinden yürütülüyor</p>
-        
-        <audio controls>
-            <!-- DOĞRU LİNK BURASI: Senin Drive ID'n eklendi -->
-            <source src="https://drive.google.com/file/d/1uJijXH9WYl-JMJonUmqkAGOpw1fUoLvQ/view?usp=sharing" type="audio/mpeg">
-            Tarayıcınız bu dosyayı desteklemiyor.
-        </audio>
+<div class="player-card">
 
-        <div class="footer-text">GOOGLE DRIVE SOURCE</div>
+    <div class="icon">🎧</div>
+    <h2>Ses Dosyanız</h2>
+
+    <!-- SADECE DRIVE PLAYER -->
+    <div class="iframe-container">
+        <iframe src="https://drive.google.com/file/d/1Wcr_BqeF899C57AzWkYjo4VfjEuIGZlF/preview" allow="autoplay"></iframe>
     </div>
+
+    <div class="footer">GOOGLE DRIVE PLAYER</div>
+
+</div>
 
 </body>
 </html>
