@@ -3,225 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tübitak 4006 - Akıllı Şiir Etkinliği</title>
-
+    <title>Tübitak 4006 - Akıllı Şiir</title>
     <style>
-        :root {
-            --bg: #0d0d0e;
-            --card: #1c1c1e;
-            --accent: #007aff;
-            --success: #34c759;
-            --error: #ff3b30;
-            --warning: #ff9f0a;
-            --text: #ffffff;
+        :root { 
+            --bg: #000000; 
+            --card: rgba(28, 28, 30, 0.7); 
+            --accent: #0071e3; 
+            --text: #f5f5f7; 
+            --gray: #86868b;
+            --success: #30d158;
         }
 
-        body {
-            margin: 0;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            background: radial-gradient(circle at center, #1c1c1e 0%, #0d0d0e 100%);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: var(--text);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        body { 
+            margin: 0; padding: 0; background: var(--bg); 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; 
+            color: var(--text); overflow-x: hidden; display: flex; justify-content: center;
         }
 
-        /* AKICI ANİMASYONLAR */
-        @keyframes cardPop {
-            0% { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(10px); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        /* APPLE STYLE SPRING ANIMATION */
+        @keyframes appleIntro {
+            0% { opacity: 0; transform: scale(1.1) translateY(40px); filter: blur(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
         }
 
-        @keyframes rotateMusic {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes contentFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* MODERN KART TASARIMI */
-        .card {
-            background: rgba(28, 28, 30, 0.85);
-            width: 90%;
-            max-width: 400px;
-            padding: 40px 30px;
-            border-radius: 40px;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-            animation: cardPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .container {
+            width: 100%; max-width: 400px; padding: 40px 20px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .image-container { display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 25px; }
-        .image-container img { width: 75px; height: 75px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
+        /* LOGO ALANI */
+        .logo-container {
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            margin-bottom: 30px; animation: appleIntro 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards;
+        }
+        .logo-box {
+            width: 80px; height: 80px; 
+            border-radius: 20px; background: rgba(255, 255, 255, 0.08);
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .logo-box img { width: 75%; height: 75%; object-fit: contain; }
 
-        .icon { font-size: 55px; margin-bottom: 15px; display: inline-block; animation: rotateMusic 8s linear infinite; }
-        .welcome-msg { color: var(--warning); font-weight: 600; margin-bottom: 10px; font-size: 1.2rem; }
-
-        input {
-            width: 100%; padding: 16px; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #2c2c2e; color: white; margin-bottom: 20px; text-align: center; font-size: 16px; outline: none; box-sizing: border-box;
+        .card { 
+            background: var(--card); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            width: 100%; padding: 40px 30px; border-radius: 35px; text-align: center; 
+            border: 1px solid rgba(255,255,255,0.12); box-sizing: border-box;
+            animation: appleIntro 1s cubic-bezier(0.15, 0, 0.2, 1) forwards;
+            margin-bottom: 20px;
         }
 
-        .btn {
-            background: linear-gradient(135deg, #007aff, #0051af); color: white; border: none;
-            padding: 16px 30px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%;
-            transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+        /* INPUT & BUTTONS */
+        input { 
+            width: 100%; padding: 18px; border-radius: 16px; border: none; 
+            background: rgba(255,255,255,0.1); color: white; 
+            margin-bottom: 25px; text-align: center; font-size: 17px;
+            transition: all 0.4s ease; box-sizing: border-box;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 122, 255, 0.4); }
+        input:focus { background: rgba(255,255,255,0.15); box-shadow: 0 0 0 3px var(--accent); outline: none; }
 
-        .player-box { height: 85px; overflow: hidden; border-radius: 25px; background: #000; margin: 25px 0; border: 1px solid rgba(255, 255, 255, 0.1); }
-        iframe { width: 100%; height: 140px; border: none; transform: translateY(-33px); }
-
-        .option { background: rgba(255, 255, 255, 0.05); color: #d1d1d6; padding: 18px; border-radius: 20px; margin-bottom: 12px; cursor: pointer; text-align: left; transition: 0.3s; }
-        .option:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(10px); }
-        .correct { background: var(--success) !important; color: white !important; font-weight: bold; }
-        .wrong { background: var(--error) !important; color: white !important; }
-        .disabled { pointer-events: none; opacity: 0.6; }
-
-        #adminPanel {
-            display: none; background: rgba(28, 28, 30, 0.95); width: 95%; max-width: 500px;
-            border-radius: 30px; padding: 30px; border: 1px solid var(--accent); margin-bottom: 30px; backdrop-filter: blur(25px);
+        .btn { 
+            background: var(--accent); color: white; border: none; 
+            padding: 18px; border-radius: 16px; font-weight: 600; 
+            width: 100%; cursor: pointer; font-size: 17px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th, td { border: 1px solid #48484a; padding: 10px; text-align: left; }
-        th { color: var(--accent); }
+        .btn:active { transform: scale(0.95); opacity: 0.85; }
 
-        .admin-trigger { position: fixed; bottom: 0; right: 0; width: 50px; height: 50px; cursor: pointer; z-index: 9999; }
+        /* PLAYER BOX */
+        .player-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px; padding: 15px; margin: 25px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        iframe { width: 100%; height: 65px; border-radius: 14px; border: none; filter: invert(0.9) hue-rotate(180deg); }
+
+        /* SEÇENEKLER */
+        .option { 
+            background: rgba(255,255,255,0.06); padding: 18px; border-radius: 16px; 
+            margin-bottom: 12px; cursor: pointer; text-align: left; 
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); font-size: 16px;
+        }
+        .option:hover { background: rgba(255,255,255,0.12); transform: scale(1.02); }
+        .correct { background: var(--success) !important; color: white; }
+        .wrong { background: #ff453a !important; color: white; }
+        .disabled { pointer-events: none; opacity: 0.5; }
+
+        /* GİZLİ ADMİN BAR (MERKEZ) */
+        .admin-trigger { 
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); 
+            width: 80px; height: 6px; cursor: pointer; z-index: 1000; 
+            background: rgba(255,255,255,0.05); border-radius: 10px; transition: 0.3s;
+        }
+        .admin-trigger:hover { background: rgba(255,255,255,0.2); }
+
+        #adminPanel { 
+            display: none; position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); background: rgba(28, 28, 30, 0.98); 
+            backdrop-filter: blur(50px); width: 90%; max-width: 450px; 
+            border-radius: 35px; padding: 30px; border: 1px solid var(--accent); 
+            z-index: 2000; box-shadow: 0 0 100px rgba(0,0,0,0.9);
+            animation: appleIntro 0.5s ease;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ADMIN PANELİ -->
-    <div id="adminPanel">
-        <h3 style="color:var(--accent); margin-top:0;">📊 Yönetim Paneli</h3>
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <button class="btn" style="width:auto; padding:10px 20px;" onclick="closeAdmin()">Kapat</button>
-            <button class="btn" style="width:auto; padding:10px 20px; background:orange" onclick="loadCloudData()">Verileri Yenile</button>
-        </div>
-        <div style="overflow-x:auto;">
-            <table>
-                <thead><tr><th>İsim</th><th>Skor</th><th>Ödül</th><th>Kod</th></tr></thead>
-                <tbody id="adminTableBody"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- GİRİŞ EKRANI -->
-    <div id="loginCard" class="card">
-        <div class="icon">👋</div>
-        <h2>Tübitak 4006</h2>
-        <input type="text" id="userName" placeholder="Adınız Soyadınız">
-        <button class="btn" onclick="startExperience()">Deneyimi Başlat</button>
-    </div>
-
-    <!-- ANA İÇERİK -->
-    <div id="mainContent" style="display:none; width:100%; flex-direction:column; align-items:center;">
-        <div class="card">
-            <div class="image-container">
-                <img src="https://i.ibb.co/xqmTz8xx/Milli-E-itim-Bakanl-Logo-svg.png
-" alt="MEB">
-                <img src="https://i.ibb.co/0VtKGr55/images-1-1.png" alt="TÜBİTAK">
-            </div>
-            <div id="welcomeMessage" class="welcome-msg"></div>
-            <div class="icon">🎵</div>
-            <h2>Şiiri Dinle</h2>
-            <div class="player-box">
-                <iframe src="https://drive.google.com/file/d/1Wcr_BqeF899C57AzWkYjo4VfjEuIGZlF/preview"></iframe>
-            </div>
-            <button id="startQuizBtn" class="btn" onclick="nextQuestion()">Dinleme Bitti: Sorulara Geç</button>
-        </div>
-        <div id="quizFlow" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div>
-    </div>
-
     <div class="admin-trigger" onclick="loginAdmin()"></div>
 
-    <script>
-        // SİZİN SCRIPT URL'NİZ
-        const SCRIPT_URL = "https://google.com"; 
+    <div id="adminPanel">
+        <h2 style="margin-top:0; color:var(--accent);">📊 Panel</h2>
+        <div id="adminTableBody" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px; font-size: 14px;"></div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="btn" style="background:#333;" onclick="closeAdmin()">Kapat</button>
+            <button class="btn" onclick="loadCloudData()">Verileri Çek</button>
+        </div>
+    </div>
 
+    <div class="container">
+        <!-- LOGOLAR -->
+        <div class="logo-container">
+            <div class="logo-box"><img src="https://i.ibb.co/xqmTz8xx/Milli-E-itim-Bakanl-Logo-svg.png
+"></div>
+            <div class="logo-box"><img src="https://i.ibb.co/0VtKGr55/images-1-1.png"></div>
+        </div>
+
+        <!-- GİRİŞ -->
+        <div id="loginCard" class="card">
+            <h1 style="font-size: 32px; font-weight: 700; letter-spacing: -1.2px; margin-bottom: 10px;">Akıllı Şiir</h1>
+            <p style="color:var(--gray); margin-bottom:40px; font-size: 18px;">TÜBİTAK 4006 Deneyimi</p>
+            <input type="text" id="userName" placeholder="Adınız Soyadınız">
+            <button class="btn" onclick="startExperience()">Başlat</button>
+        </div>
+
+        <!-- ANA İÇERİK -->
+        <div id="mainContent" style="display:none; width:100%;">
+            <div class="card">
+                <h2 id="welcomeMessage" style="font-size: 22px; margin-bottom: 10px;"></h2>
+                <div class="player-wrapper">
+                    <p style="font-size: 12px; color: var(--gray); margin-bottom: 12px; font-weight: 700; letter-spacing: 1px;">ŞİİRİ DİNLE</p>
+                    <iframe src="https://drive.google.com/file/d/1Wcr_BqeF899C57AzWkYjo4VfjEuIGZlF/preview
+"></iframe>
+                </div>
+                <button id="startQuizBtn" class="btn" onclick="showQuestion()">Dinleme Tamamlandı</button>
+            </div>
+            <div id="quizFlow"></div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzk4JE8bht6GpZ4u7y_wHcnhl64_uZZJ34HrVXIiMxk7FfYgdDHWgL7B8ZRHPHRRFLX/exec"; 
         let user = "", score = 0, current = 0;
         const questions = [
-            { q: "1. Şiirde hangi duygu ağır basmaktadır?", o: ["A) Ayrılık", "B) Memleket Sevgisi", "C) Korku"], c: 1 },
-            { q: "2. Şair geleceği kime emanet ediyor?", o: ["A) Geçmişe", "B) Yaşlılara", "C) Gençlere"], c: 2 },
-            { q: "3. Projenin ana amacı nedir?", o: ["A) Eğlence", "B) Bilim ve Sanat", "C) Spor"], c: 1 },
-            { q: "4. Şiirdeki ana mekan neresidir?", o: ["A) Vatan", "B) Uzay", "C) Fabrika"], c: 0 },
-            { q: "5. Şairin genel tavrı nasıldır?", o: ["A) Ümitsiz", "B) Umutlu ve Kararlı", "C) Kızgın"], c: 1 }
+            { q: "Şiirde hangi duygu ağır basmaktadır?", o: ["Ayrılık", "Memleket Sevgisi", "Korku"], c: 1 },
+            { q: "Şair geleceği kime emanet ediyor?", o: ["Geçmişe", "Yaşlılara", "Gençlere"], c: 2 },
+            { q: "Projenin ana amacı nedir?", o: ["Eğlence", "Bilim ve Sanat", "Spor"], c: 1 },
+            { q: "Şiirdeki ana mekan neresidir?", o: ["Vatan", "Uzay", "Fabrika"], c: 0 },
+            { q: "Şairin genel tavrı nasıldır?", o: ["Ümitsiz", "Umutlu ve Kararlı", "Kızgın"], c: 1 }
         ];
 
         function startExperience() {
             user = document.getElementById('userName').value.trim();
-            if(!user) return alert("Lütfen isminizi yazın!");
-            document.getElementById('loginCard').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'flex';
-            document.getElementById('welcomeMessage').innerText = "Hoş geldin, " + user + "!";
+            if(!user) return;
+            const login = document.getElementById('loginCard');
+            login.style.transition = "all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)";
+            login.style.opacity = "0";
+            login.style.transform = "scale(0.9) translateY(-30px)";
+            setTimeout(() => {
+                login.style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('welcomeMessage').innerText = "Hoş Geldin, " + user;
+            }, 800);
         }
 
-        function nextQuestion() {
-            if(current >= questions.length) return;
-            document.getElementById('startQuizBtn').style.display = 'none';
-            const q = questions[current], flow = document.getElementById('quizFlow'), card = document.createElement('div');
-            card.className = 'card'; card.style.textAlign = 'left';
-            card.innerHTML = `<h4 style="color:var(--warning);margin:0">SORU ${current+1}</h4><h3 style="margin-top:10px">${q.q}</h3>` + 
-                q.o.map((o,i)=>`<div class="option q${current}" onclick="handleAnswer(this,${i},${q.c})">${o}</div>`).join('');
+        function showQuestion() {
+            document.getElementById('startQuizBtn').style.display = "none";
+            const q = questions[current];
+            const flow = document.getElementById('quizFlow');
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <p style="color:var(--accent); font-weight:700; font-size:12px;">SORU ${current+1} / 5</p>
+                <h3 style="text-align:left; font-size:21px; margin: 20px 0;">${q.q}</h3>
+                ${q.o.map((o, i) => `<div class="option" onclick="handleAnswer(this, ${i}, ${q.c})">${o}</div>`).join('')}
+            `;
             flow.appendChild(card);
-            card.scrollIntoView({behavior:'smooth'});
+            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
         }
 
-        function handleAnswer(el, sel, cor) {
-            document.querySelectorAll(`.q${current}`).forEach(o => o.classList.add('disabled'));
-            if(sel === cor) { el.classList.add('correct'); score++; }
-            else { el.classList.add('wrong'); document.querySelectorAll(`.q${current}`)[cor].classList.add('correct'); }
+        function handleAnswer(btn, selected, correct) {
+            btn.parentElement.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+            if(selected === correct) { btn.classList.add('correct'); score += 20; } 
+            else { btn.classList.add('wrong'); btn.parentElement.querySelectorAll('.option')[correct].classList.add('correct'); }
+            
             current++;
             setTimeout(() => {
-                if(current < questions.length) nextQuestion();
-                else finishGame();
-            }, 1500);
+                if(current < questions.length) showQuestion();
+                else finishQuiz();
+            }, 1000);
         }
 
-        async function finishGame() {
-            const won = score >= 3;
-            let finalCode = "-";
-
-            // TÜM CİHAZLARDA SENKRONİZE KOD SİSTEMİ (1000'DEN BAŞLAR)
-            if(won) {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                // E-tablodaki satır sayısına göre kod üret (1000 + kayıt sayısı)
-                finalCode = 1000 + (data.length - 1); 
-            }
-
-            const res = document.createElement('div'); res.className = 'card';
-            res.innerHTML = `<h3>Sonuç: ${score}/5</h3>` + (won ? `<div style="background:rgba(52,199,89,0.1);padding:20px;border-radius:20px;border:1px solid var(--success)"><h2 style="color:var(--success);margin:0">🎉 KAZANDIN!</h2><p>Ödül Kodun: <b style="font-size:24px">${finalCode}</b></p></div>` : `<p>Başaramadın, 3 doğru gerekirdi.</p>`);
-            document.getElementById('quizFlow').appendChild(res);
-            res.scrollIntoView({behavior:'smooth'});
-
-            // BULUT VERİ KAYDI
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({name: user, score: score, won: won ? "EVET" : "HAYIR", code: finalCode})
-            });
+        function finishQuiz() {
+            const code = Math.floor(1000 + Math.random() * 9000);
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.background = "linear-gradient(145deg, rgba(0,113,227,0.1), rgba(0,0,0,0))";
+            card.innerHTML = `
+                <h2 style="font-size: 28px;">🏁 Bitti!</h2>
+                <p>Puanın: <b style="font-size:24px;">${score}</b></p>
+                <div style="margin: 30px 0; padding: 25px; background: rgba(255,255,255,0.06); border-radius: 25px; border: 1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size: 13px; color: var(--gray);">KATILIM KODUN</p>
+                    <span style="font-size: 38px; font-weight: 800; color: var(--accent);">${code}</span>
+                </div>
+            `;
+            document.getElementById('quizFlow').appendChild(card);
+            card.scrollIntoView({ behavior: 'smooth' });
+            if(SCRIPT_URL.length > 10) fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify({name: user, score: score, code: code}) });
         }
 
         function loginAdmin() {
-            if(prompt("Admin Şifresi:") === "admin123") {
-                document.getElementById('adminPanel').style.display = 'block';
-                loadCloudData();
-            }
+            if(prompt("Şifre:") === "4006") document.getElementById('adminPanel').style.display = 'block';
         }
+
         function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
-        
+
         async function loadCloudData() {
-            const res = await fetch(SCRIPT_URL);
-            const data = await res.json();
-            document.getElementById('adminTableBody').innerHTML = data.slice(1).map(row => 
-                `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td></tr>`).join('');
+            const body = document.getElementById('adminTableBody');
+            body.innerHTML = "Veriler çekiliyor...";
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                body.innerHTML = data.slice(1).reverse().map(row => 
+                    `<div style="padding:10px; border-bottom:1px solid #333; margin-bottom:5px;"><b>${row[0]}</b> - ${row[1]} Puan (Kod: ${row[3]})</div>`).join('');
+            } catch(e) { body.innerHTML = "Hata: Veri çekilemedi."; }
         }
     </script>
 </body>
