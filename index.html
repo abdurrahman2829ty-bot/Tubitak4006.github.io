@@ -1,70 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Kuş Sesi</title>
-
-<style>
-body {
-  background-color: #1e1e1e;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.container {
-  background: #2c2c2c;
-  padding: 30px;
-  border-radius: 15px;
-  display: inline-block;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 10px;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Ses Çalar</title>
+    <style>
+        body {
+            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background: #000; font-family: -apple-system, sans-serif;
+        }
+        .player-card {
+            background: #1c1c1e; width: 90%; max-width: 360px; padding: 40px 20px;
+            border-radius: 40px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+        }
+        h2 { color: #fff; margin: 10px 0; font-size: 1.5rem; }
+        p { color: #8e8e93; font-size: 0.9rem; margin-bottom: 30px; }
+        audio {
+            width: 100%; height: 50px; outline: none;
+            filter: invert(1) hue-rotate(180deg) brightness(1.5);
+        }
+        .footer-text { margin-top: 25px; font-size: 11px; color: #444; letter-spacing: 1px; }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h2>🐦 Muhabbet Kuşu Sesi</h2>
+    <div class="player-card">
+        <div style="font-size: 50px; margin-bottom: 10px;">💾</div>
+        <h2>Drive Ses Dosyası</h2>
+        <p>Bulut üzerinden yürütülüyor</p>
+        
+        <audio controls>
+            <!-- DOĞRU LİNK BURASI: Senin Drive ID'n eklendi -->
+            <source src="https://drive.google.com/file/d/1uJijXH9WYl-JMJonUmqkAGOpw1fUoLvQ/view?usp=sharing" type="audio/mpeg">
+            Tarayıcınız bu dosyayı desteklemiyor.
+        </audio>
 
-  <audio id="ses">
-    <source src="muhabbet.mp3.mp3" type="audio/mpeg">
-  </audio>
-
-  <br>
-
-  <button onclick="oynat()">🔊 Oynat</button>
-  <button onclick="dur()">⏸️ Durdur</button>
-</div>
-
-<script>
-function oynat() {
-  document.getElementById("ses").play();
-}
-
-function dur() {
-  document.getElementById("ses").pause();
-}
-</script>
+        <div class="footer-text">GOOGLE DRIVE SOURCE</div>
+    </div>
 
 </body>
-</h
-
+</html>
